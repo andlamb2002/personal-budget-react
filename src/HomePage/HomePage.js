@@ -1,6 +1,51 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import axios from 'axios';
+import Chart from 'chart.js/auto';
 
 function HomePage() {
+  const chartRef = useRef(null); 
+
+  useEffect(() => {
+    const dataSource = {
+      datasets: [
+        {
+          data: [],
+          backgroundColor: [
+            '#ffcd56',
+            '#ff6384',
+            '#36a2eb',
+            '#fd6b19',
+          ]
+        }
+      ],
+      labels: []
+    };
+
+    function getBudget() {
+      axios.get('/budget')
+        .then(function (res) {
+          for (var i = 0; i < res.data.myBudget.length; i++) {
+            dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
+            dataSource.labels[i] = res.data.myBudget[i].title;
+          }
+          createChart(); 
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    function createChart() {
+      const ctx = chartRef.current.getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: dataSource,
+      });
+    }
+
+    getBudget();
+  }, []); 
+
   return (
     <main className="center" id="main" role="main"> 
 
@@ -64,16 +109,12 @@ function HomePage() {
         </article>
 
         <article>
-            <h1>Chart</h1>
-             <figure> 
-                <canvas id="myChart" width="400" height="400" alt="Budget Chart" role="img"></canvas> 
-            </figure>
+          <h1>Chart</h1>
+          <figure> 
+            <canvas ref={chartRef} width="400" height="400" alt="Budget Chart" role="img"></canvas> 
+          </figure>
         </article> 
-
-        <div id="d3Chart"></div>
-
     </div>
-
 </main>
   );
 }
