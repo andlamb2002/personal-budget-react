@@ -65,6 +65,9 @@ function HomePage() {
                 '#ff6384',
                 '#36a2eb',
                 '#fd6b19',
+                '#4caf50',
+                '#9c27b0',
+                '#ff1744',
               ]
             }
           ],
@@ -107,7 +110,7 @@ function HomePage() {
         .attr('transform', `translate(${width / 2}, ${height / 2})`);
     
       arcs.append('path')
-        .attr('fill', d => color(d.data))
+        .attr('fill', (d, i) => color(dataSource.labels[i])) // Access color based on label index
         .attr('d', arc);
     
         arcs.append('text')
