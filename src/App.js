@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
+import './index.scss'; 
 
 import Menu from './Menu/Menu';
 import Hero from './Hero/Hero';

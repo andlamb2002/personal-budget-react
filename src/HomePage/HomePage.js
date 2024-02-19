@@ -110,7 +110,7 @@ function HomePage() {
         .attr('transform', `translate(${width / 2}, ${height / 2})`);
     
       arcs.append('path')
-        .attr('fill', (d, i) => color(dataSource.labels[i])) // Access color based on label index
+        .attr('fill', (d, i) => color(dataSource.labels[i])) 
         .attr('d', arc);
     
         arcs.append('text')
