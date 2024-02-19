@@ -3,48 +3,45 @@ import axios from 'axios';
 import Chart from 'chart.js/auto';
 
 function HomePage() {
-  const chartRef = useRef(null); 
+  const chartRef = useRef(null);
 
   useEffect(() => {
-    const dataSource = {
-      datasets: [
-        {
-          data: [],
-          backgroundColor: [
-            '#ffcd56',
-            '#ff6384',
-            '#36a2eb',
-            '#fd6b19',
-          ]
-        }
-      ],
-      labels: []
+    const getBudget = async () => {
+      try {
+        const response = await axios.get('/api/budget');
+        const budgetData = response.data.myBudget;
+
+        const dataSource = {
+          datasets: [
+            {
+              data: budgetData.map(item => item.budget),
+              backgroundColor: [
+                '#ffcd56',
+                '#ff6384',
+                '#36a2eb',
+                '#fd6b19',
+              ]
+            }
+          ],
+          labels: budgetData.map(item => item.title)
+        };
+
+        createChart(dataSource);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
 
-    function getBudget() {
-      axios.get('/budget')
-        .then(function (res) {
-          for (var i = 0; i < res.data.myBudget.length; i++) {
-            dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
-            dataSource.labels[i] = res.data.myBudget[i].title;
-          }
-          createChart(); 
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-
-    function createChart() {
+    const createChart = (dataSource) => {
       const ctx = chartRef.current.getContext('2d');
       new Chart(ctx, {
         type: 'pie',
         data: dataSource,
       });
-    }
+    };
 
     getBudget();
-  }, []); 
+  }, []);
 
   return (
     <main className="center" id="main" role="main"> 
