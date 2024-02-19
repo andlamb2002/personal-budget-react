@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 
 function HomePage() {
   const chartRef = useRef(null);
-  const chartInstance = useRef(null); // Reference to the Chart instance
+  const chartInstance = useRef(null); 
   const d3ChartRef = useRef(null);
 
   useEffect(() => {
@@ -90,17 +90,17 @@ function HomePage() {
       const radius = Math.min(width, height) / 2;
       const color = d3.scaleOrdinal()
         .domain(dataSource.labels)
-        .range(dataSource.datasets[0].backgroundColor); // Using the backgroundColor from the first dataset
+        .range(dataSource.datasets[0].backgroundColor); 
     
       const pie = d3.pie()
-        .value(d => d); // Since your data is already in the correct format, no need for additional processing
+        .value(d => d); 
     
       const arc = d3.arc()
         .innerRadius(0)
         .outerRadius(radius);
     
       const arcs = svg.selectAll('arc')
-        .data(pie(dataSource.datasets[0].data)) // Accessing the data from the first dataset
+        .data(pie(dataSource.datasets[0].data)) 
         .enter()
         .append('g')
         .attr('class', 'arc')
