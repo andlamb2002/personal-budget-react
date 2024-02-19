@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5000;
+const fs = require('fs'); 
 
 const budget = {
     myBudget: [
@@ -19,8 +20,14 @@ const budget = {
     ]
   };
 
+  const budgetData = JSON.parse(fs.readFileSync('budget-data.json')); // Read and parse the budget data
+
 app.get('/api/budget', (req, res) => {
   res.json(budget);
+});
+
+app.get('/api/budgetData', (req, res) => {
+  res.json(budgetData);
 });
 
 app.listen(PORT, () => {
