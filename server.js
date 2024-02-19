@@ -20,7 +20,7 @@ const budget = {
     ]
   };
 
-  const budgetData = JSON.parse(fs.readFileSync('budget-data.json')); // Read and parse the budget data
+  const budgetData = JSON.parse(fs.readFileSync('budget-data.json')); 
 
 app.get('/api/budget', (req, res) => {
   res.json(budget);
